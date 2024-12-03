@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large Timer</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 4rem;
+        }
+
+        h1 {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Päusken</h1>
+        <div id="timer"></div>
+    </div>
+    <script>
+        console.log('Renderer-Prozess gestartet.');
+        const timerElement = document.getElementById('timer');
+
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        window.electron.on('update-timer', (time) => {
+            console.log('Timer-Update erhalten:', time);
+            timerElement.textContent = formatTime(time);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Small Timer</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .draggable {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            -webkit-app-region: drag;
+            /* Aktiviert Dragging */
+            background: #333;
+            cursor: move;
+        }
+
+
+        h1 {
+            font-size: 12px;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="draggable"></div> <!-- Drag-Bereich -->
+    <div>
+        <h1>Arbeit</h1>
+        <div id="timer">
+        </div>
+    </div>
+    <script>
+        console.log('Renderer-Prozess gestartet.');
+
+        const timerElement = document.getElementById('timer');
+
+        function formatTime(seconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        window.electron.on('update-timer', (time) => {
+            console.log('Timer-Update erhalten:', time);
+            timerElement.textContent = formatTime(time);
+        });
+    </script>
+</body>
+
+</html>
